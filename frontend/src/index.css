@@ -1,0 +1,100 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap');
+
+@theme {
+  /* Primary - trustworthy authority, verified information */
+  --color-primary-50: #EBF8FF;
+  --color-primary-100: #BEE3F8;
+  --color-primary-200: #90CDF4;
+  --color-primary-300: #63B3ED;
+  --color-primary-400: #4299E1;
+  --color-primary-500: #3182CE;
+  --color-primary-600: #2B6CB0;
+  --color-primary-700: #2C5282;
+  --color-primary-800: #2A4365;
+  --color-primary-900: #1A365D;
+
+  /* Secondary - safety, success, resources connected */
+  --color-secondary-50: #ECFDF5;
+  --color-secondary-100: #D1FAE5;
+  --color-secondary-200: #A7F3D0;
+  --color-secondary-300: #6EE7B7;
+  --color-secondary-400: #34D399;
+  --color-secondary-500: #10B981;
+  --color-secondary-600: #059669;
+  --color-secondary-700: #047857;
+  --color-secondary-800: #065F46;
+  --color-secondary-900: #064E3B;
+
+  /* Accent - emergency actions only */
+  --color-accent-50: #FEF2F2;
+  --color-accent-100: #FEE2E2;
+  --color-accent-200: #FECACA;
+  --color-accent-300: #FCA5A5;
+  --color-accent-400: #F87171;
+  --color-accent-500: #EF4444;
+  --color-accent-600: #DC2626;
+  --color-accent-700: #B91C1C;
+  --color-accent-800: #991B1B;
+  --color-accent-900: #7F1D1D;
+
+  --color-background: #F8FAFC;
+  --color-background-100: #F1F5F9;
+  --color-surface: #E2E8F0;
+  --color-surface-100: #CBD5E1;
+
+  --color-text-primary: #1A202C;
+  --color-text-secondary: #4A5568;
+  --color-text-tertiary: #718096;
+
+  --color-success: #059669;
+  --color-warning: #D97706;
+  --color-error: #DC2626;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --shadow-minimal: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+  --shadow-essential: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --shadow-emergency: 0 10px 15px -3px rgba(220,38,38,0.15), 0 4px 6px -2px rgba(220,38,38,0.08);
+
+  --animate-pulse-emergency: pulseEmergency 2s infinite;
+}
+
+@keyframes pulseEmergency {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.5); }
+  70% { box-shadow: 0 0 0 14px rgba(220, 38, 38, 0); }
+}
+
+html, body, #root { height: 100%; }
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+.btn-primary {
+  @apply rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-semibold px-6 py-3 transition-colors shadow-essential disabled:opacity-50 disabled:cursor-not-allowed;
+}
+.btn-secondary {
+  @apply rounded-lg bg-secondary-600 hover:bg-secondary-700 text-white font-semibold px-6 py-3 transition-colors shadow-essential disabled:opacity-50 disabled:cursor-not-allowed;
+}
+.btn-emergency {
+  @apply rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-bold px-8 py-4 transition-colors shadow-emergency border-2 border-accent-600 disabled:opacity-50;
+}
+.btn-outline {
+  @apply rounded-lg border-2 border-surface-100 hover:border-primary-600 text-text-secondary hover:text-primary-600 font-medium px-6 py-3 transition-colors bg-white;
+}
+.card {
+  @apply rounded-xl border border-surface bg-white p-6 shadow-minimal;
+}
+.input-field {
+  @apply w-full rounded-lg border-2 border-surface-100 px-4 py-3 transition-colors focus:outline-none focus:border-primary-600 bg-white;
+}
+.badge {
+  @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold;
+}
+.skip-link {
+  @apply sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-primary-700 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg;
+}

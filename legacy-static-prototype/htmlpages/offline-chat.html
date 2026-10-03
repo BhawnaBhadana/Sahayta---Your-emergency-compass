@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Offline Chat</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    #chat { border: 1px solid #ccc; height: 200px; overflow-y: auto; margin-bottom: 10px; padding: 5px; }
+  </style>
+</head>
+<body>
+
+<h3>Offline Chat</h3>
+
+<div id="chat"></div>
+
+<input id="msg" placeholder="Type message..." />
+<button onclick="sendMsg()">Send</button>
+
+<script>
+  // CHANGE THIS to your laptop's local IP
+  const socket = new WebSocket("ws://localhost:3001");
+
+  socket.onmessage = (event) => {
+    const div = document.createElement("div");
+    div.innerText = event.data;
+    document.getElementById("chat").appendChild(div);
+  };
+
+  function sendMsg() {
+    const input = document.getElementById("msg");
+    socket.send(input.value);
+    input.value = "";
+  }
+</script>
+
+</body>
+</html>

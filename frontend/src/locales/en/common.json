@@ -1,0 +1,137 @@
+{
+  "brand": {
+    "name": "Sahayta",
+    "tagline": "Crisis Response",
+    "motto": "Standing With You In Crisis"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "commandCenter": "Command Center",
+    "myTasks": "My Tasks",
+    "verifyReports": "Verify Reports",
+    "map": "Crisis Map",
+    "alerts": "Alerts",
+    "resources": "Resources",
+    "shelters": "Shelters",
+    "hospitals": "Hospitals",
+    "community": "Community",
+    "preparedness": "Preparedness",
+    "missingPersons": "Missing Persons",
+    "verification": "Verification",
+    "rescueTeams": "Rescue Teams",
+    "manageUsers": "Manage Users",
+    "login": "Login",
+    "signup": "Sign up",
+    "logout": "Logout",
+    "sos": "SOS"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "confirm": "Confirm",
+    "close": "Close",
+    "retry": "Try again",
+    "back": "Back",
+    "loading": "Loading...",
+    "viewAll": "View all",
+    "km": "km",
+    "min": "min",
+    "yes": "Yes",
+    "no": "No",
+    "online": "Online",
+    "offline": "Offline",
+    "syncing": "Syncing...",
+    "synced": "Synced"
+  },
+  "states": {
+    "loadingGeneric": "Loading data...",
+    "emptyGeneric": "Nothing here yet.",
+    "errorGeneric": "Unable to load data. Please try again."
+  },
+  "connectivity": {
+    "banner": "Low connectivity. Showing cached data. Last synchronized: {{time}}.",
+    "bannerNote": "Core emergency info (contacts, saved shelters) remains available offline."
+  },
+  "landing": {
+    "heroLine": "When disaster strikes, every second and every connection matters. Sahayta turns a citizen's distress signal into a verified, coordinated response.",
+    "sos": "SOS",
+    "findHelp": "Find Help",
+    "reportIncident": "Report Incident",
+    "findShelter": "Find Shelter",
+    "findHospital": "Find Hospital",
+    "volunteer": "Volunteer",
+    "emergencyAlerts": "Emergency Alerts",
+    "signInPrompt": "Sign in or create an account to unlock dashboards, tracking, and family safety tools.",
+    "flowTitle": "From Distress Signal to Coordinated Response",
+    "demoBanner": "Demo / simulation platform. Sahayta uses simulated emergency data for demonstration purposes and is not connected to live government or emergency-dispatch systems."
+  },
+  "sos": {
+    "title": "Emergency Activation",
+    "holdInstruction": "Press and hold the button for {{seconds}} seconds to activate.",
+    "releaseNote": "Release to cancel. Your location will be captured automatically.",
+    "immediateDanger": "Are you in immediate danger?",
+    "confirmTitle": "Confirm Emergency SOS",
+    "confirmBody": "This will alert nearby responders and share your live location. Are you sure you want to send this SOS?",
+    "countdownCancel": "Cancel ({{seconds}}s)",
+    "sendNow": "Send Now",
+    "detailsTitle": "Tell us what's happening",
+    "emergencyType": "Emergency type",
+    "severity": "Severity",
+    "description": "Short description (optional)",
+    "descriptionPlaceholder": "Helps responders prepare...",
+    "peopleAffected": "Number of people affected (optional)",
+    "speakInstead": "🎤 Speak instead",
+    "listening": "Listening...",
+    "voiceNotSupported": "Voice input isn't supported on this browser — please type instead.",
+    "confirmExtracted": "We understood the following from your voice message. Please confirm before sending.",
+    "send": "Send SOS",
+    "sending": "Sending...",
+    "sentTitle": "SOS Sent",
+    "locationShared": "Location shared",
+    "emergencyReceived": "Emergency received",
+    "autoTriaged": "Auto-triaged as {{severity}} {{type}}",
+    "trackThis": "Track this SOS",
+    "savedOffline": "Saved — waiting for network. This has NOT reached responders yet.",
+    "willRetry": "We'll retry automatically once you're back online.",
+    "aiTriageTitle": "AI-Assisted Triage (rule-based)",
+    "aiTriageDisclaimer": "AI-assisted recommendation. Final decision requires authorized human responder confirmation.",
+    "confirmTriage": "Confirm priority",
+    "recommendedResponse": "Recommended response",
+    "requiredResources": "Likely required resources"
+  },
+  "severity": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "critical": "Critical"
+  },
+  "emergencyType": {
+    "medical": "Medical",
+    "fire": "Fire",
+    "flood": "Flood",
+    "accident": "Accident",
+    "trapped": "Trapped",
+    "missing_person": "Missing Person",
+    "road_blockage": "Road Blockage",
+    "infrastructure_damage": "Infrastructure Damage",
+    "other": "Other"
+  },
+  "role": {
+    "citizen": "Citizen",
+    "volunteer": "Volunteer",
+    "responder": "Responder",
+    "coordinator": "Coordinator",
+    "ngo": "NGO",
+    "hospital": "Hospital",
+    "admin": "Admin"
+  },
+  "footer": {
+    "rights": "© 2026 Sahayta Crisis Response. Standing With You In Crisis.",
+    "demoNote": "Demo/simulation platform — not connected to live emergency services."
+  },
+  "language": {
+    "choose": "Choose language",
+    "comingSoon": "This language isn't fully translated yet — showing English for now."
+  }
+}

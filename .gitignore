@@ -1,0 +1,17 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# User uploads
+backend/uploads/
+
+# Logs / OS / build
+*.log
+.DS_Store
+Thumbs.db
+dist/
+build/

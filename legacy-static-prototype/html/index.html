@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grace Era Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: "#f3f7f7",
+              100: "#d9ece9",
+              500: "#118a7e",
+              700: "#0b5f58"
+            }
+          },
+          boxShadow: {
+            panel: "0 15px 45px rgba(17, 138, 126, 0.15)"
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+  <div id="app" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <header class="bg-white rounded-2xl shadow-panel p-4 sm:p-6 mb-6">
+      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-brand-700">Grace Era</h1>
+          <p class="text-slate-600">Modern essentials for everyday style.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="wishlistBtn" class="relative px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition">Wishlist <span id="wishlistCount" class="font-semibold">0</span></button>
+          <button id="cartBtn" class="relative px-4 py-2 rounded-lg bg-brand-500 text-white hover:bg-brand-700 transition">Cart <span id="cartCount" class="font-semibold">0</span></button>
+        </div>
+      </div>
+
+      <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <input id="searchInput" type="text" placeholder="Search products..." class="rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500" />
+        <select id="categoryFilter" class="rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <option value="">All Categories</option>
+        </select>
+        <input id="minPrice" type="number" placeholder="Min price" class="rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500" />
+        <input id="maxPrice" type="number" placeholder="Max price" class="rounded-lg border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500" />
+      </div>
+    </header>
+
+    <div id="feedbackBar" class="hidden rounded-lg px-4 py-3 mb-4 text-sm"></div>
+
+    <main>
+      <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      <div id="emptyState" class="hidden text-center py-14 text-slate-500">No products found for your filters.</div>
+    </main>
+  </div>
+
+  <div id="globalLoader" class="hidden fixed inset-0 bg-black/30 backdrop-blur-sm z-50 items-center justify-center">
+    <div class="bg-white px-6 py-4 rounded-xl shadow-panel font-semibold">Processing...</div>
+  </div>
+
+  <div id="cartModal" class="hidden fixed inset-0 z-40 bg-black/40 p-4">
+    <div class="bg-white max-w-2xl mx-auto rounded-2xl p-4 sm:p-6 mt-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-bold">Your Cart</h2>
+        <button data-close-cart class="text-slate-500 hover:text-slate-800 text-2xl leading-none">&times;</button>
+      </div>
+      <div id="cartItems" class="space-y-3"></div>
+      <p id="cartEmptyState" class="hidden text-slate-500 py-6 text-center">Your cart is empty.</p>
+      <div class="border-t pt-4 mt-4 space-y-3">
+        <p class="font-semibold text-lg">Subtotal: INR <span id="cartTotal">0</span></p>
+        <input id="checkoutEmail" type="email" placeholder="Enter email for order confirmation" class="w-full rounded-lg border border-slate-300 px-3 py-2" />
+        <button id="checkoutBtn" class="w-full rounded-lg bg-brand-500 hover:bg-brand-700 text-white py-2.5 font-semibold transition">Pay with Razorpay</button>
+        <button id="codBtn" class="w-full rounded-lg bg-slate-100 hover:bg-slate-200 py-2.5 font-semibold transition">Place Cash on Delivery Order</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="productModal" class="hidden fixed inset-0 z-40 bg-black/40 p-4">
+    <div class="bg-white max-w-2xl mx-auto rounded-2xl p-4 sm:p-6 mt-6">
+      <div class="flex justify-between items-center mb-3">
+        <h2 class="text-xl font-bold">Product Details</h2>
+        <button data-close-product class="text-slate-500 hover:text-slate-800 text-2xl leading-none">&times;</button>
+      </div>
+      <div id="productModalContent"></div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="fixed right-4 bottom-4 z-50 space-y-2"></div>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="../script.js"></script>
+</body>
+</html>

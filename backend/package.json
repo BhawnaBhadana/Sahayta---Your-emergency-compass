@@ -1,0 +1,27 @@
+{
+  "name": "sahayta-backend",
+  "version": "1.0.0",
+  "description": "Sahayta crisis-response API",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "migrate": "node src/utils/migrate.js",
+    "seed": "node src/utils/seed.js",
+    "test": "node --test tests/"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.1",
+    "pg": "^8.12.0",
+    "ws": "^8.18.0",
+    "zod": "^3.23.8"
+  }
+}

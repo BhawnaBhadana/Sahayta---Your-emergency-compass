@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#16293f" />
+  <title>Recall OS — learning that survives the exam</title>
+  <style>
+    :root {
+      --ink: #172238;
+      --muted: #64748b;
+      --line: #dbe4ee;
+      --paper: #fbfcfe;
+      --panel: #ffffff;
+      --navy: #172b45;
+      --blue: #2667ff;
+      --blue-soft: #eef3ff;
+      --mint: #dff7ec;
+      --amber: #fff1ce;
+      --rose: #ffe4e8;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      background: var(--paper);
+      font: 15px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid rgba(38,103,255,.27); outline-offset: 2px; }
+
+    .shell { max-width: 1180px; margin: auto; padding: 28px 22px 56px; }
+    header { display: flex; justify-content: space-between; gap: 24px; align-items: center; margin-bottom: 26px; }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; letter-spacing: -.03em; font-size: 20px; }
+    .mark { width: 34px; height: 34px; display: grid; place-items: center; color: white; background: var(--blue); border-radius: 11px; font-weight: 900; }
+    .tag { color: var(--muted); font-size: 13px; }
+    .hero { display: grid; grid-template-columns: 1.25fr .75fr; gap: 18px; margin-bottom: 18px; }
+    .hero-main { background: var(--navy); color: white; border-radius: 25px; padding: 31px; overflow: hidden; position: relative; }
+    .hero-main::after { content: ""; position: absolute; right: -54px; top: -65px; width: 215px; height: 215px; border: 36px solid rgba(137, 179, 255, .18); border-radius: 50%; }
+    h1 { margin: 0 0 10px; max-width: 610px; font-size: clamp(30px, 4vw, 45px); line-height: 1.06; letter-spacing: -.055em; position: relative; z-index: 1; }
+    .hero-main p { max-width: 555px; color: #cad5e5; margin: 0; position: relative; z-index: 1; }
+    .definition { border-left: 3px solid #8fb1ff; margin-top: 22px; padding-left: 13px; color: #e5ecf8; font-size: 14px; position: relative; z-index: 1; }
+    .pulse { background: var(--panel); border: 1px solid var(--line); border-radius: 25px; padding: 24px; display: grid; align-content: center; gap: 13px; }
+    .pulse-label { margin: 0; color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .pulse-number { margin: 0; font-size: 47px; line-height: 1; letter-spacing: -.06em; font-weight: 800; }
+    .pulse-copy { margin: 0; color: var(--muted); }
+    .pulse-bar { height: 9px; overflow: hidden; background: #e9eef5; border-radius: 999px; }
+    .pulse-bar > span { height: 100%; width: 38%; display: block; background: var(--blue); border-radius: inherit; transition: width .25s ease; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+    .panel-wide { grid-column: 1 / -1; }
+    .eyebrow { color: var(--blue); font-size: 12px; font-weight: 800; letter-spacing: .075em; text-transform: uppercase; }
+    h2 { margin: 3px 0 5px; font-size: 22px; letter-spacing: -.035em; line-height: 1.18; }
+    .sub { margin: 0 0 17px; color: var(--muted); font-size: 14px; }
+    form { display: grid; gap: 11px; }
+    .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+    label { display: grid; gap: 5px; color: #475569; font-weight: 700; font-size: 12px; }
+    input, select, textarea { width: 100%; border: 1px solid #cbd7e5; border-radius: 10px; padding: 10px 11px; color: var(--ink); background: #fff; }
+    textarea { min-height: 67px; resize: vertical; }
+    .button-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; margin-top: 4px; }
+    .button { border: 0; border-radius: 10px; padding: 10px 14px; font-weight: 800; transition: transform .15s ease, background .15s ease; }
+    .button:hover { transform: translateY(-1px); }
+    .primary { background: var(--blue); color: white; }
+    .quiet { color: #334155; background: #edf1f6; }
+    .danger { color: #a52743; background: #fff0f2; }
+    .session { margin-top: 18px; padding: 16px; background: var(--blue-soft); border: 1px solid #cbd8ff; border-radius: 13px; }
+    .session[hidden] { display: none; }
+    .session-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+    .session h3 { margin: 0; font-size: 17px; line-height: 1.25; letter-spacing: -.02em; }
+    .chip { display: inline-block; background: white; border: 1px solid #d1ddff; color: #2449aa; padding: 3px 8px; border-radius: 99px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+    .steps { margin: 13px 0 11px; padding-left: 21px; }
+    .steps li { padding-left: 3px; margin: 6px 0; }
+    .proof { padding: 10px; background: rgba(255,255,255,.78); border-radius: 10px; font-size: 13px; }
+    .proof strong { color: #1d4ed8; }
+    .timer { font-variant-numeric: tabular-nums; color: var(--navy); font-weight: 800; font-size: 21px; letter-spacing: -.03em; }
+    .timer-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #cbd8ff; padding-top: 12px; }
+    .memory-list, .repair-list { display: grid; gap: 10px; margin-top: 14px; }
+    .memory { border: 1px solid var(--line); border-radius: 13px; padding: 13px; }
+    .memory-top { display: flex; gap: 9px; justify-content: space-between; align-items: flex-start; }
+    .memory-topic { margin: 0 0 3px; font-size: 12px; color: var(--muted); font-weight: 700; }
+    .memory-question { margin: 0; font-weight: 800; line-height: 1.3; }
+    .answer { margin: 10px 0 0; padding: 10px; background: #f6f8fb; border-radius: 9px; color: #334155; font-size: 13px; }
+    .answer[hidden] { display: none; }
+    .rating { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
+    .rating button { border: 0; border-radius: 8px; padding: 7px 9px; font-size: 12px; font-weight: 800; }
+    .again { background: var(--rose); color: #a12543; }
+    .hard { background: var(--amber); color: #8d5b00; }
+    .good { background: var(--mint); color: #08714a; }
+    .easy { background: #e8eeff; color: #264eb9; }
+    .empty { padding: 20px 8px 8px; color: var(--muted); font-size: 14px; text-align: center; }
+    .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+    .board-item { padding: 12px; border-radius: 12px; min-height: 104px; }
+    .board-item:nth-child(1) { background: #edf3ff; }
+    .board-item:nth-child(2) { background: #f5efff; }
+    .board-item:nth-child(3) { background: #fff4df; }
+    .board-item:nth-child(4) { background: #e6f8ee; }
+    .board-num { display: block; font-size: 27px; font-weight: 800; letter-spacing: -.05em; line-height: 1; }
+    .board-copy { margin: 8px 0 0; color: #42526b; font-size: 12px; font-weight: 700; line-height: 1.35; }
+    .repair { padding: 12px; border-left: 3px solid #f4aa31; background: #fffaf0; border-radius: 0 10px 10px 0; }
+    .repair strong { display: block; font-size: 13px; }
+    .repair span { display: block; color: #6b7280; margin-top: 3px; font-size: 12px; }
+    .footer-note { margin: 21px 0 0; color: var(--muted); font-size: 12px; text-align: center; }
+    .toast { position: fixed; right: 20px; bottom: 20px; z-index: 10; padding: 11px 14px; color: white; background: var(--navy); border-radius: 10px; box-shadow: 0 12px 30px rgba(15,23,42,.22); transition: opacity .2s ease, transform .2s ease; }
+    .toast[hidden] { display: none; }
+    @media (max-width: 760px) {
+      .shell { padding: 18px 14px 38px; }
+      header { margin-bottom: 17px; }
+      .hero, .grid { grid-template-columns: 1fr; }
+      .hero-main, .pulse { border-radius: 18px; padding: 22px; }
+      .panel { padding: 17px; }
+      .board { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 430px) { .fields { grid-template-columns: 1fr; } .session-head { flex-direction: column; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="brand"><span class="mark">R</span> Recall OS</div>
+      <span class="tag">Private, local-first learning engine</span>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-main">
+        <h1 id="page-title">Study proof, not study time.</h1>
+        <p>Build a system that decides the next useful task, forces visible evidence of learning, and turns every failure into a targeted repair.</p>
+        <p class="definition"><strong>Mastery means:</strong> you can produce the answer unaided, vary it, and still do it under the pressure your exam demands.</p>
+      </div>
+      <aside class="pulse" aria-live="polite">
+        <p class="pulse-label">Your review queue</p>
+        <p id="dueCount" class="pulse-number">0</p>
+        <p id="dueCopy" class="pulse-copy">Add a memory item to begin.</p>
+        <div class="pulse-bar" aria-hidden="true"><span id="queueBar"></span></div>
+      </aside>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <div class="eyebrow">1. Mission generator</div>
+        <h2>What must the student prove today?</h2>
+        <p class="sub">This does not make a timetable. It creates one concrete performance task based on the kind of learning required.</p>
+        <form id="missionForm">
+          <div class="fields">
+            <label>Subject or exam <input id="missionSubject" required maxlength="60" placeholder="e.g. Economics" /></label>
+            <label>Learning type
+              <select id="missionMode">
+                <option value="quant">Calculation / technical</option>
+                <option value="theory">Theory / long-answer</option>
+                <option value="language">Language</option>
+                <option value="exam">Competitive exam</option>
+              </select>
+            </label>
+          </div>
+          <label>One narrow topic <input id="missionTopic" required maxlength="100" placeholder="e.g. Supply shifts and elasticity" /></label>
+          <div class="fields">
+            <label>Minutes available <input id="missionMinutes" required type="number" min="15" max="180" value="45" /></label>
+            <label>Current state
+              <select id="missionState">
+                <option value="new">New / confusing</option>
+                <option value="shaky">I recognise it, but cannot produce it</option>
+                <option value="near">Nearly exam-ready</option>
+              </select>
+            </label>
+          </div>
+          <div class="button-row"><button class="button primary" type="submit">Generate proof session</button></div>
+        </form>
+        <div id="session" class="session" hidden aria-live="polite">
+          <div class="session-head">
+            <div><span id="sessionMode" class="chip"></span><h3 id="sessionTitle"></h3></div>
+            <span id="timer" class="timer">00:00</span>
+          </div>
+          <ol id="sessionSteps" class="steps"></ol>
+          <div id="sessionProof" class="proof"></div>
+          <div class="timer-row"><span id="timerHint" class="tag">Timer is ready.</span><div class="button-row"><button id="timerButton" type="button" class="button quiet">Start timer</button><button id="saveMission" type="button" class="button primary">Save as memory item</button></div></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="eyebrow">2. Memory queue</div>
+        <h2>Recall one item before it fades.</h2>
+        <p class="sub">A review is not a flashcard swipe. Reveal the answer only after attempting it, then rate the quality of your retrieval.</p>
+        <form id="memoryForm">
+          <div class="fields">
+            <label>Topic <input id="memoryTopic" required maxlength="60" placeholder="e.g. Japanese" /></label>
+            <label>Memory type
+              <select id="memoryType"><option>Concept</option><option>Formula</option><option>Vocabulary</option><option>Essay structure</option><option>Past-paper error</option></select>
+            </label>
+          </div>
+          <label>Question you must answer from memory <input id="memoryQuestion" required maxlength="180" placeholder="What causes a movement along the demand curve?" /></label>
+          <label>Minimal correct answer <textarea id="memoryAnswer" required maxlength="500" placeholder="A change in price, holding other determinants constant."></textarea></label>
+          <div class="button-row"><button class="button quiet" type="submit">Add to memory queue</button></div>
+        </form>
+        <div id="memoryList" class="memory-list"></div>
+      </article>
+
+      <article class="panel panel-wide">
+        <div class="eyebrow">3. Failure-to-repair loop</div>
+        <h2>An incorrect answer is data, not a verdict.</h2>
+        <p class="sub">Log the exact failed task. Recall OS converts the mistake into a repair move instead of letting students repeat the entire chapter.</p>
+        <form id="repairForm">
+          <div class="fields">
+            <label>Subject or exam <input id="repairSubject" required maxlength="60" placeholder="e.g. IELTS Writing" /></label>
+            <label>Failure type
+              <select id="repairType"><option value="concept">Concept gap</option><option value="method">Method / procedure</option><option value="transfer">Could not apply to a new question</option><option value="timing">Timing / exam strategy</option><option value="language">Language / expression</option></select>
+            </label>
+          </div>
+          <label>What exactly went wrong? <textarea id="repairNote" required maxlength="350" placeholder="I knew the formula but selected the wrong depreciation method when the wording changed."></textarea></label>
+          <div class="button-row"><button class="button primary" type="submit">Create repair task</button></div>
+        </form>
+        <div id="repairList" class="repair-list"></div>
+
+        <div class="board" aria-label="The four kinds of proof">
+          <div class="board-item"><span class="board-num">01</span><p class="board-copy">Recall it from a blank page.</p></div>
+          <div class="board-item"><span class="board-num">02</span><p class="board-copy">Use it on a changed question.</p></div>
+          <div class="board-item"><span class="board-num">03</span><p class="board-copy">Explain why competing answers fail.</p></div>
+          <div class="board-item"><span class="board-num">04</span><p class="board-copy">Perform it against a clock.</p></div>
+        </div>
+      </article>
+    </section>
+    <p class="footer-note">Your data stays in this browser. Review scheduling is deliberately transparent: Again → 1 day, Hard → 3 days, Good → 7 days, Easy → 14 days.</p>
+  </main>
+  <div id="toast" class="toast" hidden role="status" aria-live="polite"></div>
+
+  <script>
+    const storageKey = "recall-os-v1";
+    const state = JSON.parse(localStorage.getItem(storageKey) || "{\"items\":[],\"repairs\":[]}");
+    let activeMission = null;
+    let secondsLeft = 0;
+    let timerId = null;
+
+    const $ = (selector) => document.querySelector(selector);
+    const byId = (id) => document.getElementById(id);
+    const save = () => localStorage.setItem(storageKey, JSON.stringify(state));
+    const uid = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    const dateAtStartOfDay = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
+    const toDate = (days) => { const d = dateAtStartOfDay(); d.setDate(d.getDate() + days); return d.toISOString(); };
+    const isDue = (item) => new Date(item.nextReview) <= new Date();
+    const escapeText = (value) => String(value).replace(/[&<>'"]/g, (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "'":"&#39;", '"':"&quot;" }[c]));
+
+    function showToast(message) {
+      const toast = byId("toast");
+      toast.textContent = message;
+      toast.hidden = false;
+      window.clearTimeout(showToast.id);
+      showToast.id = window.setTimeout(() => { toast.hidden = true; }, 2600);
+    }
+
+    function updatePulse() {
+      const due = state.items.filter(isDue).length;
+      byId("dueCount").textContent = due;
+      byId("dueCopy").textContent = due === 0 ? "No recalls due right now." : `${due} item${due === 1 ? "" : "s"} need${due === 1 ? "s" : ""} an honest attempt.`;
+      byId("queueBar").style.width = `${Math.min(100, Math.max(10, due * 22))}%`;
+    }
+
+    function renderMemory() {
+      const list = byId("memoryList");
+      const items = [...state.items].sort((a, b) => new Date(a.nextReview) - new Date(b.nextReview));
+      if (!items.length) {
+        list.innerHTML = '<p class="empty">No memory items yet. Add one precise question—not an entire chapter.</p>';
+        updatePulse();
+        return;
+      }
+      list.innerHTML = items.map((item) => {
+        const dueLabel = isDue(item) ? "Due now" : `Next review ${new Date(item.nextReview).toLocaleDateString(undefined, { month: "short", day: "numeric" })}`;
+        return `<article class="memory" data-memory-id="${item.id}">
+          <div class="memory-top"><div><p class="memory-topic">${escapeText(item.topic)} · ${escapeText(item.type)} · ${dueLabel}</p><p class="memory-question">${escapeText(item.question)}</p></div><button class="button danger delete-memory" type="button" aria-label="Delete memory item">×</button></div>
+          <p class="answer" hidden>${escapeText(item.answer)}</p>
+          <div class="rating"><button class="button quiet reveal" type="button">Reveal answer</button><span class="rate-controls" hidden><button class="again rate" data-days="1" type="button">Again · 1d</button><button class="hard rate" data-days="3" type="button">Hard · 3d</button><button class="good rate" data-days="7" type="button">Good · 7d</button><button class="easy rate" data-days="14" type="button">Easy · 14d</button></span></div>
+        </article>`;
+      }).join("");
+      updatePulse();
+    }
+
+    function renderRepairs() {
+      const list = byId("repairList");
+      if (!state.repairs.length) { list.innerHTML = '<p class="empty">No repair tasks yet. A clean error log is better than a fake-perfect one.</p>'; return; }
+      list.innerHTML = [...state.repairs].reverse().slice(0, 6).map((repair) => `<article class="repair"><strong>${escapeText(repair.subject)} — ${escapeText(repair.title)}</strong><span>${escapeText(repair.task)}</span></article>`).join("");
+    }
+
+    const modes = {
+      quant: {
+        label: "Calculation / technical",
+        steps: (topic, minutes, level) => [
+          `Without notes, write the method or formula for “${topic}” and one condition for using it. (${Math.max(5, Math.round(minutes * .15))} min)`,
+          `Complete two worked examples, covering each next line before you write it. Mark the first uncertain step. (${Math.max(12, Math.round(minutes * .4))} min)`,
+          `${level === "near" ? "Do a timed mixed question" : "Change one condition and solve a fresh variant"}; no notes until your final check. (${Math.max(10, Math.round(minutes * .35))} min)`,
+          `Log the exact step that failed and solve one corrective micro-question. (${Math.max(5, Math.round(minutes * .1))} min)`
+        ],
+        proof: "Proof required: a clean solution to a changed problem plus a one-sentence explanation of why that method applies."
+      },
+      theory: {
+        label: "Theory / long-answer",
+        steps: (topic, minutes, level) => [
+          `From a blank page, make a causal map for “${topic}”: definitions, mechanisms, one example, and one limitation. (${Math.max(8, Math.round(minutes * .25))} min)`,
+          `Compare your map with the source; add only what was missing in a different colour. (${Math.max(7, Math.round(minutes * .2))} min)`,
+          `Write a ${level === "near" ? "timed" : "closed-book"} answer to one question. Every paragraph must claim, explain, and apply. (${Math.max(15, Math.round(minutes * .45))} min)`,
+          `Underline unsupported claims and turn two omissions into memory prompts. (${Math.max(5, Math.round(minutes * .1))} min)`
+        ],
+        proof: "Proof required: a closed-book answer that earns its marks through explanation and application, not copied phrases."
+      },
+      language: {
+        label: "Language",
+        steps: (topic, minutes, level) => [
+          `Attempt a 60-second spoken or written response using “${topic}” before looking anything up. (${Math.max(5, Math.round(minutes * .15))} min)`,
+          `Study 4–6 useful chunks in context; read or listen to them twice. (${Math.max(10, Math.round(minutes * .3))} min)`,
+          `Produce new output: ${level === "near" ? "under a time limit" : "with a changed situation"}. Record it or write it without a translator. (${Math.max(15, Math.round(minutes * .45))} min)`,
+          `Compare, repair only repeated errors, and add the strongest chunk to the memory queue. (${Math.max(5, Math.round(minutes * .1))} min)`
+        ],
+        proof: "Proof required: original comprehensible output using the target language, plus one repaired version."
+      },
+      exam: {
+        label: "Competitive exam",
+        steps: (topic, minutes, level) => [
+          `Predict your approach for “${topic}”: timing, marks, and first decision. (${Math.max(4, Math.round(minutes * .1))} min)`,
+          `Complete one timed past-paper set with exam materials only. (${Math.max(18, Math.round(minutes * .55))} min)`,
+          `Mark it immediately. For each miss, label it concept, method, transfer, timing, or language. (${Math.max(10, Math.round(minutes * .25))} min)`,
+          `Repair the highest-value error with one similar question. (${Math.max(5, Math.round(minutes * .1))} min)`
+        ],
+        proof: "Proof required: a timed score, an error classification, and one successful repair—not merely completing a paper."
+      }
+    };
+
+    function resetTimer() {
+      window.clearInterval(timerId); timerId = null;
+      byId("timerButton").textContent = "Start timer";
+      byId("timerHint").textContent = "Timer is ready.";
+    }
+    function renderTimer() {
+      const m = Math.floor(secondsLeft / 60); const s = secondsLeft % 60;
+      byId("timer").textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    }
+
+    byId("missionForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      resetTimer();
+      const subject = byId("missionSubject").value.trim();
+      const topic = byId("missionTopic").value.trim();
+      const mode = byId("missionMode").value;
+      const minutes = Number(byId("missionMinutes").value);
+      const level = byId("missionState").value;
+      const recipe = modes[mode];
+      activeMission = { subject, topic, mode, minutes, level, recipe };
+      secondsLeft = minutes * 60;
+      renderTimer();
+      byId("sessionMode").textContent = recipe.label;
+      byId("sessionTitle").textContent = `${subject}: prove “${topic}”`;
+      byId("sessionSteps").innerHTML = recipe.steps(topic, minutes, level).map((step) => `<li>${escapeText(step)}</li>`).join("");
+      byId("sessionProof").innerHTML = `<strong>${recipe.proof.split(":")[0]}:</strong>${escapeText(recipe.proof.split(":")[1])}`;
+      byId("session").hidden = false;
+      byId("session").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    byId("timerButton").addEventListener("click", () => {
+      if (!activeMission) return;
+      if (timerId) { resetTimer(); return; }
+      if (!secondsLeft) { secondsLeft = activeMission.minutes * 60; renderTimer(); }
+      byId("timerButton").textContent = "Pause timer";
+      byId("timerHint").textContent = "Protect this block. Finish the proof, not just the clock.";
+      timerId = window.setInterval(() => {
+        secondsLeft -= 1; renderTimer();
+        if (secondsLeft <= 0) { resetTimer(); secondsLeft = 0; renderTimer(); byId("timerHint").textContent = "Time. Check whether you produced the required proof."; showToast("Time is up. Mark the work before moving on."); }
+      }, 1000);
+    });
+
+    byId("saveMission").addEventListener("click", () => {
+      if (!activeMission) return;
+      state.items.push({ id: uid(), topic: activeMission.subject, type: activeMission.recipe.label, question: `Can I perform “${activeMission.topic}” without notes? What exact proof do I need?`, answer: activeMission.recipe.proof, nextReview: toDate(1) });
+      save(); renderMemory(); showToast("Mission saved for an honest review tomorrow.");
+    });
+
+    byId("memoryForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      state.items.push({ id: uid(), topic: byId("memoryTopic").value.trim(), type: byId("memoryType").value, question: byId("memoryQuestion").value.trim(), answer: byId("memoryAnswer").value.trim(), nextReview: toDate(0) });
+      save(); event.currentTarget.reset(); renderMemory(); showToast("Added. Attempt it before revealing the answer.");
+    });
+
+    byId("memoryList").addEventListener("click", (event) => {
+      const memory = event.target.closest("[data-memory-id]");
+      if (!memory) return;
+      const id = memory.dataset.memoryId;
+      if (event.target.closest(".reveal")) { memory.querySelector(".answer").hidden = false; memory.querySelector(".rate-controls").hidden = false; event.target.hidden = true; return; }
+      const rating = event.target.closest(".rate");
+      if (rating) { const item = state.items.find((record) => record.id === id); item.nextReview = toDate(Number(rating.dataset.days)); save(); renderMemory(); showToast(`Next recall scheduled in ${rating.dataset.days} day${rating.dataset.days === "1" ? "" : "s"}.`); return; }
+      if (event.target.closest(".delete-memory")) { state.items = state.items.filter((record) => record.id !== id); save(); renderMemory(); showToast("Memory item removed."); }
+    });
+
+    const repairTemplates = {
+      concept: "Write the smallest true explanation from a blank page; compare it once; then answer one question that needs that explanation.",
+      method: "Perform the method once with a worked example covered, name the decision at each step, then do one changed version.",
+      transfer: "Make a ‘same / different’ table between the failed question and a familiar one, then solve two altered variants.",
+      timing: "Redo one comparable question with a strict time cap; at each minute mark, note the next action you should be taking.",
+      language: "Rewrite or re-say the response using one accurate, reusable chunk; make a second original response with that chunk."
+    };
+
+    byId("repairForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const type = byId("repairType").value;
+      const note = byId("repairNote").value.trim();
+      const subject = byId("repairSubject").value.trim();
+      state.repairs.push({ id: uid(), subject, title: `${type.replace(/^./, (letter) => letter.toUpperCase())} repair`, task: `${repairTemplates[type]} Failed task: ${note}` });
+      state.items.push({ id: uid(), topic: subject, type: "Past-paper error", question: `Repair this ${type} error: ${note}`, answer: repairTemplates[type], nextReview: toDate(1) });
+      save(); event.currentTarget.reset(); renderRepairs(); renderMemory(); showToast("Repair task created and added to tomorrow’s memory queue.");
+    });
+
+    renderMemory();
+    renderRepairs();
+  </script>
+</body>
+</html>
